@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Maxistore — Boutique</title>
+  <meta name="description" content="Maxistore — Boutique en ligne de produits variés" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="logo" aria-label="Maxistore">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Maxistore</span>
+        </div>
+        <nav class="nav-links" aria-label="Menu principal">
+          <a href="#" data-nav="home">Accueil</a>
+          <a href="#products" data-nav="products">Produits</a>
+          <a href="#catalog" data-nav="catalog">Catalogue</a>
+        </nav>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="search">
+          <input id="searchInput" placeholder="Rechercher un produit..." aria-label="Recherche produit">
+          <button class="icon-btn" id="searchBtn" title="Rechercher">🔍</button>
+        </div>
+
+        <button class="icon-btn" id="cartBtn" aria-label="Ouvrir le panier">🛒 <span id="cartCount" style="font-weight:700;margin-left:6px">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <!-- Banner -->
+    <section class="banner" aria-labelledby="main-banner">
+      <div class="left">
+        <h1 id="main-banner">Maxistore — tout ce dont vous avez besoin</h1>
+        <p>Produits variés, livraison rapide, paiement sécurisé. Découvrez nos meilleurs articles.</p>
+        <button class="cta-btn" id="shopNow">Voir les produits</button>
+      </div>
+      <div class="right" style="display:flex;align-items:center;justify-content:center">
+        <img src="images/banner.svg" alt="Bannière" style="max-width:420px;border-radius:10px;box-shadow:var(--shadow);">
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <h2 style="margin:0">Catégories</h2>
+      <div class="small muted">Filtrer & découvrir</div>
+    </div>
+    <div class="cats" id="categories"></div>
+
+    <!-- Products -->
+    <section id="products">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2>Produits</h2>
+        <div>
+          <label class="small muted">Trier: </label>
+          <select id="sortSelect" class="pill small">
+            <option value="default">Par défaut</option>
+            <option value="price-asc">Prix: croissant</option>
+            <option value="price-desc">Prix: décroissant</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid" id="productGrid" aria-live="polite"></div>
+
+      <div style="text-align:center;margin:18px 0" id="catalog">
+        <a href="#" class="cta-link" id="seeMore">Voir tout le catalogue →</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid container" style="max-width:var(--maxw);padding:0">
+        <div style="max-width:360px">
+          <div class="logo"><span class="dot"></span> Maxistore</div>
+          <p class="muted small">Boutique en ligne de produits variés — qualité et confiance.</p>
+          <p class="small"><strong>Adresse :</strong> Rue Exemple 123, Cotonou, Bénin</p>
+          <p class="small"><strong>Email :</strong> contact@maxistore.example</p>
+        </div>
+
+        <div style="min-width:220px">
+          <h4 style="margin:0 0 6px 0">Réseaux sociaux</h4>
+          <div class="socials">
+            <a href="#" aria-label="Facebook">Facebook</a>
+            <a href="#" aria-label="Instagram">Instagram</a>
+            <a href="#" aria-label="WhatsApp">WhatsApp</a>
+            <a href="#" aria-label="TikTok">TikTok</a>
+          </div>
+        </div>
+
+        <div style="min-width:220px">
+          <h4 style="margin:0 0 6px 0">Newsletter</h4>
+          <p class="small muted">Inscris-toi pour recevoir des offres.</p>
+          <form id="newsletterForm">
+            <input type="email" id="newsEmail" placeholder="ton@email.com" required style="padding:8px;border-radius:8px;border:1px solid #e6e3e0">
+            <button class="pill" style="margin-left:8px" type="submit">S'inscrire</button>
+          </form>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:12px;color:var(--muted);font-size:13px">© <span id="year"></span> Maxistore — Mentions légales</div>
+    </footer>
+  </main>
+
+  <!-- Cart drawer -->
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <h3>Ton panier</h3>
+    <div id="cartItems"></div>
+    <div style="border-top:1px solid #eee;padding-top:10px;margin-top:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="muted">Total</div>
+        <div id="cartTotal" style="font-weight:700">0 FCFA</div>
+      </div>
+      <button class="cta-btn" id="checkoutBtn" style="width:100%;margin-top:10px">Commander</button>
+    </div>
+  </aside>
+
+  <!-- Payment modal (simple) -->
+  <div id="paymentModal" aria-hidden="true">
+    <div class="payment-inner">
+      <h3>Finaliser la commande</h3>
+      <form id="checkoutForm">
+        <input name="name" placeholder="Nom complet" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="address" placeholder="Adresse de livraison" required>
+        <label class="small muted">Moyen de paiement (simulation)</label>
+        <select name="payment">
+          <option>Mobile Money</option>
+          <option>Carte bancaire (simulation)</option>
+          <option>Cash à la livraison</option>
+        </select>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+          <button type="button" id="cancelPayment" class="pill">Annuler</button>
+          <button type="submit" class="cta-btn">Confirmer (simulation)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Product modal -->
+  <div id="productModal" aria-hidden="true">
+    <div class="product-modal-content">
+      <button id="modalClose" aria-label="Fermer">&times;</button>
+      <img id="modalImg" src="" alt="">
+      <h3 id="modalTitle"></h3>
+      <p id="modalCategory" class="muted small"></p>
+      <p id="modalDesc"></p>
+      <div id="modalPrice"><span class="old-price"></span> <span class="current-price"></span></div>
+      <button id="modalAddBtn" class="cta-btn">Ajouter au panier</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
